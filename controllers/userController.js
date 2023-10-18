@@ -11,8 +11,10 @@ const signup = async (req, res) => {
       if(dupe.length > 0){
         return res.status(400).json({message: "Email Already exists"});
       }
-      
-      const hashedPassword = await bcryptUtil.hashPassword(Password);
+      const decode = Buffer.from(Password, 'base64').toString('utf-8');
+      // console.log(Buffer.from(Password, 'base64'));
+
+      const hashedPassword = await bcryptUtil.hashPassword(decode);
   
       const result = await createUser({ FirstName, LastName, Email, Password: hashedPassword });
   
